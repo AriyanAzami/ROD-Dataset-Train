@@ -86,8 +86,28 @@ RUN_NAME = f"rod_{{MODEL_VARIANT}}"
 # ===============================================================
 print(f"Training {{MODEL_VARIANT}} from {{WEIGHTS}} | {{EPOCHS}} epochs | batch {{BATCH}} | imgsz {{IMGSZ}} | device {{DEVICE}}")"""))
 
-    cells.append(md("## 2 · Install & environment check"))
-    cells.append(code("""!pip install -q -U ultralytics"""))
+    cells.append(md("""## 2 · Install & environment check
+
+Kaggle's base image usually ships `ultralytics`; with **Internet → ON** we
+upgrade it (newer variants like YOLO12/YOLO26 need a recent release). If the
+upgrade can't reach PyPI we fall back to the pre-installed version instead of
+crashing, and only stop with a clear message if `ultralytics` is truly missing
+(in which case enable **Settings → Internet → ON** and re-run)."""))
+    cells.append(code("""import importlib.util, subprocess, sys
+
+# Upgrade when Internet is ON; tolerate offline runs that already have ultralytics.
+try:
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-U", "ultralytics"],
+                   check=True, timeout=600)
+except Exception as e:
+    print("ultralytics upgrade skipped (offline or pip error):", e)
+
+if importlib.util.find_spec("ultralytics") is None:
+    raise RuntimeError(
+        "ultralytics is not installed and could not be fetched. "
+        "Enable Settings -> Internet: ON (also required to download pretrained "
+        "weights), then Run All again."
+    )"""))
     cells.append(code("""import torch, ultralytics
 print("ultralytics:", ultralytics.__version__)
 print("torch:", torch.__version__, "| CUDA available:", torch.cuda.is_available())
