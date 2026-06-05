@@ -1,0 +1,7 @@
+# Core — Kaggle installs the latest with `pip install -U ultralytics`.
+# Pinned-ish floors here are for local/headless use of src/evaluate.py.
+ultralytics>=8.3.0
+torch>=2.1
+pyyaml>=6.0
+matplotlib>=3.7
+pandas>=2.0

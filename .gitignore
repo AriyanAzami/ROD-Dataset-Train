@@ -1,0 +1,35 @@
+# Local scratch — downloaded Kaggle kernel outputs/logs
+kaggle_out/
+
+# Weights & large training artifacts — never commit these
+*.pt
+*.onnx
+*.tflite
+*.engine
+*.ncnn*
+runs/
+wandb/
+
+# Datasets / images
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.tif
+*.tiff
+data.yaml
+!notebooks/**/*.png   # allow committed result charts if you choose to add them
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
